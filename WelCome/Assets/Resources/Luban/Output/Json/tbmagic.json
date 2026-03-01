@@ -1,0 +1,44 @@
+[
+  {
+    "id": 2001,
+    "name": "发光术",
+    "desc": "让物体持续发出柔和光芒",
+    "magic_type": 1,
+    "unlock_day": 1
+  },
+  {
+    "id": 2002,
+    "name": "恒温术",
+    "desc": "维持物体温度恒定",
+    "magic_type": 2,
+    "unlock_day": 1
+  },
+  {
+    "id": 2003,
+    "name": "清洁术",
+    "desc": "去除污渍和灰尘",
+    "magic_type": 3,
+    "unlock_day": 3
+  },
+  {
+    "id": 2004,
+    "name": "悬浮术",
+    "desc": "让物体漂浮减轻重量",
+    "magic_type": 4,
+    "unlock_day": 5
+  },
+  {
+    "id": 2005,
+    "name": "坚固术",
+    "desc": "增强物体结构强度",
+    "magic_type": 5,
+    "unlock_day": 8
+  },
+  {
+    "id": 2006,
+    "name": "驱虫术",
+    "desc": "驱赶昆虫和害虫",
+    "magic_type": 6,
+    "unlock_day": 10
+  }
+]

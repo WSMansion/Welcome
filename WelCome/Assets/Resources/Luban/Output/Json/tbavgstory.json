@@ -1,0 +1,26 @@
+[
+  {
+    "id": 6001,
+    "title": "相遇",
+    "id_start": 7001,
+    "id_end": 7005,
+    "trigger_day": 1,
+    "can_recur": false
+  },
+  {
+    "id": 6002,
+    "title": "第一笔交易",
+    "id_start": 7006,
+    "id_end": 7009,
+    "trigger_day": 2,
+    "can_recur": false
+  },
+  {
+    "id": 6003,
+    "title": "巡查来访",
+    "id_start": 7010,
+    "id_end": 7014,
+    "trigger_day": 3,
+    "can_recur": false
+  }
+]

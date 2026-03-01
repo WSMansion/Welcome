@@ -1,0 +1,98 @@
+[
+  {
+    "id": 3001,
+    "product_name": "长明灯",
+    "desc": "注入发光魔法的油灯，可持续照明",
+    "material_id": 1010,
+    "material_cost": 1,
+    "magic_type": 1,
+    "magic_cost_base": 1,
+    "base_price": 15,
+    "need_tag": 1,
+    "unlock_day": 1
+  },
+  {
+    "id": 3002,
+    "product_name": "保温罐",
+    "desc": "注入恒温魔法的瓦罐，保持食物温度",
+    "material_id": 1008,
+    "material_cost": 1,
+    "magic_type": 2,
+    "magic_cost_base": 1,
+    "base_price": 18,
+    "need_tag": 2,
+    "unlock_day": 1
+  },
+  {
+    "id": 3003,
+    "product_name": "百洁布",
+    "desc": "注入清洁魔法的麂皮，轻松去污",
+    "material_id": 1005,
+    "material_cost": 1,
+    "magic_type": 3,
+    "magic_cost_base": 1,
+    "base_price": 22,
+    "need_tag": 3,
+    "unlock_day": 3
+  },
+  {
+    "id": 3004,
+    "product_name": "省力滑轮",
+    "desc": "注入悬浮魔法的铁制滑轮",
+    "material_id": 1001,
+    "material_cost": 2,
+    "magic_type": 4,
+    "magic_cost_base": 2,
+    "base_price": 35,
+    "need_tag": 4,
+    "unlock_day": 5
+  },
+  {
+    "id": 3005,
+    "product_name": "强化锤",
+    "desc": "注入坚固魔法的工匠锤",
+    "material_id": 1001,
+    "material_cost": 2,
+    "magic_type": 5,
+    "magic_cost_base": 2,
+    "base_price": 30,
+    "need_tag": 4,
+    "unlock_day": 8
+  },
+  {
+    "id": 3006,
+    "product_name": "驱虫陶片",
+    "desc": "注入驱虫魔法的陶片，保护庄稼",
+    "material_id": 1008,
+    "material_cost": 1,
+    "magic_type": 6,
+    "magic_cost_base": 1,
+    "base_price": 12,
+    "need_tag": 6,
+    "unlock_day": 10
+  },
+  {
+    "id": 3007,
+    "product_name": "夜光玻璃瓶",
+    "desc": "发光玻璃容器",
+    "material_id": 1009,
+    "material_cost": 1,
+    "magic_type": 1,
+    "magic_cost_base": 1,
+    "base_price": 20,
+    "need_tag": 1,
+    "unlock_day": 2
+  },
+  {
+    "id": 3008,
+    "product_name": "暖手铜块",
+    "desc": "恒温铜块，冬日取暖",
+    "material_id": 1002,
+    "material_cost": 1,
+    "magic_type": 2,
+    "magic_cost_base": 1,
+    "base_price": 12,
+    "need_tag": 2,
+    "unlock_day": 2
+  }
+]

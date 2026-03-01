@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1001,
+    "name": "铁锭",
+    "desc": "普通的铁块",
+    "category": 1,
+    "buy_price": 5,
+    "icon": ""
+  },
+  {
+    "id": 1002,
+    "name": "铜锭",
+    "desc": "暗红色的铜块",
+    "category": 1,
+    "buy_price": 3,
+    "icon": ""
+  },
+  {
+    "id": 1003,
+    "name": "橡木板",
+    "desc": "结实的木板",
+    "category": 2,
+    "buy_price": 4,
+    "icon": ""
+  },
+  {
+    "id": 1004,
+    "name": "棉布",
+    "desc": "柔软的棉布",
+    "category": 3,
+    "buy_price": 3,
+    "icon": ""
+  },
+  {
+    "id": 1005,
+    "name": "麂皮",
+    "desc": "细腻的皮料",
+    "category": 3,
+    "buy_price": 8,
+    "icon": ""
+  },
+  {
+    "id": 1006,
+    "name": "魔力碎晶",
+    "desc": "微弱发光的碎片",
+    "category": 4,
+    "buy_price": 15,
+    "icon": ""
+  },
+  {
+    "id": 1007,
+    "name": "艾草",
+    "desc": "有驱虫功效的草药",
+    "category": 5,
+    "buy_price": 4,
+    "icon": ""
+  },
+  {
+    "id": 1008,
+    "name": "陶土",
+    "desc": "可塑性好的黏土",
+    "category": 6,
+    "buy_price": 2,
+    "icon": ""
+  },
+  {
+    "id": 1009,
+    "name": "玻璃片",
+    "desc": "透明的玻璃碎片",
+    "category": 6,
+    "buy_price": 3,
+    "icon": ""
+  },
+  {
+    "id": 1010,
+    "name": "蜡块",
+    "desc": "可制作蜡烛",
+    "category": 6,
+    "buy_price": 2,
+    "icon": ""
+  }
+]

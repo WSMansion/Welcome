@@ -1,0 +1,21 @@
+---
+description: Project-level context, external service tokens, and conventions
+globs: "**/*"
+alwaysApply: true
+---
+
+# 项目上下文
+
+## 飞书云文档
+- 文档目录 folder_token: `A0QXfEMWzl1Oxwde2oacChprnpf`
+- URL: https://my.feishu.cn/drive/folder/A0QXfEMWzl1Oxwde2oacChprnpf
+- 已有文档:
+  - `Cursor-开发日志` (token: URkPdqMzbodYxox5YuKchT69n1g)
+  - `Cursor-代码架构` (token: RC8WdN5lDoJs33xezBSc0i96nBg)
+  - `Cursor-当前状态与规划` (token: FUuGdb0DWo0ENQxEWbucVYF2n1b)
+- 更新文档流程：docx_builtin_import 新建 → drive_v1_file_move 移入文件夹 → drive_v1_file_delete 删除旧版
+
+## 通用约定
+- 始终使用中文简体回复
+- 每次修改代码后主动检查 Unity Editor.log 是否有新的编译或运行时错误
+- 不要让用户进入 Unity 后遇到阻断性问题

@@ -1,0 +1,100 @@
+[
+  {
+    "id": 7001,
+    "speaker": "",
+    "text": "月黑风高的雨夜，莱亚从城外归来...",
+    "time_delay": 0,
+    "time_duration": 3
+  },
+  {
+    "id": 7002,
+    "speaker": "莱亚",
+    "text": "嗯？这里怎么蹲着个人...你还好吗？",
+    "time_delay": 0.5,
+    "time_duration": 0
+  },
+  {
+    "id": 7003,
+    "speaker": "",
+    "text": "一个衣衫不整、浑身湿透的少年抬起了头，金色的眼眸在暗夜中微微发光。",
+    "time_delay": 0,
+    "time_duration": 3
+  },
+  {
+    "id": 7004,
+    "speaker": "莱亚",
+    "text": "（好漂亮...）咳，跟我来吧，先去我那儿躲躲雨。",
+    "time_delay": 0,
+    "time_duration": 0
+  },
+  {
+    "id": 7005,
+    "speaker": "",
+    "text": "你跟随莱亚来到了她的工坊...",
+    "time_delay": 0,
+    "time_duration": 2
+  },
+  {
+    "id": 7006,
+    "speaker": "莱亚",
+    "text": "看看这个！我把你教我的那个发光的东西封到灯里面了！",
+    "time_delay": 0,
+    "time_duration": 0
+  },
+  {
+    "id": 7007,
+    "speaker": "雀",
+    "text": "......这也行？",
+    "time_delay": 0,
+    "time_duration": 0
+  },
+  {
+    "id": 7008,
+    "speaker": "莱亚",
+    "text": "当然行！而且我觉得这个肯定能卖钱！走，今晚就试试！",
+    "time_delay": 0,
+    "time_duration": 0
+  },
+  {
+    "id": 7009,
+    "speaker": "",
+    "text": "莱亚兴奋地拉着雀开始了第一次\"营业\"...",
+    "time_delay": 0,
+    "time_duration": 2
+  },
+  {
+    "id": 7010,
+    "speaker": "",
+    "text": "清晨，一阵粗暴的敲门声惊醒了两人。",
+    "time_delay": 0,
+    "time_duration": 2
+  },
+  {
+    "id": 7011,
+    "speaker": "巡查兵",
+    "text": "开门！例行检查！",
+    "time_delay": 0,
+    "time_duration": 0
+  },
+  {
+    "id": 7012,
+    "speaker": "莱亚",
+    "text": "（小声）别慌，让我来应付。你先躲到后面去。",
+    "time_delay": 0,
+    "time_duration": 0
+  },
+  {
+    "id": 7013,
+    "speaker": "",
+    "text": "莱亚打开门，堆起笑脸，熟练地塞了几枚铜币过去。",
+    "time_delay": 0,
+    "time_duration": 2
+  },
+  {
+    "id": 7014,
+    "speaker": "莱亚",
+    "text": "呼...每次都这么吓人。看来我们得赚更多钱了。",
+    "time_delay": 0,
+    "time_duration": 0
+  }
+]

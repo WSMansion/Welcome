@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "lark-mcp": {
+      "command": "C:\\nodejs\\node-v22.14.0-win-x64\\npx.cmd",
+      "args": [
+        "-y",
+        "@larksuiteoapi/lark-mcp",
+        "mcp",
+        "-a",
+        "cli_a92eee292f389ced",
+        "-s",
+        "iO7rFik7oA9VD3hPM0Domgm1aFFRx58g",
+        "--oauth",
+        "--token-mode",
+        "user_access_token",
+        "-t",
+        "preset.doc.default,drive.v1.file.list,drive.v1.file.move,drive.v1.file.createFolder,drive.v1.file.delete,drive.v1.file.copy,drive.v1.meta.batchQuery,drive.v1.file.taskCheck"
+      ],
+      "env": {
+        "PATH": "C:\\nodejs\\node-v22.14.0-win-x64;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem"
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "starting_gold": 100,
+    "ap_per_day": 10,
+    "magic_per_night": 10,
+    "night_slots": 5,
+    "protection_fee": 50,
+    "protection_fee_day": 7
+  }
+]
