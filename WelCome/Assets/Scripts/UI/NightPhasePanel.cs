@@ -98,8 +98,8 @@ namespace WelCome.UI
             floor.GetComponent<RectTransform>().Set(0f, 0.12f, 1f, 0.4f);
 
             var shopkeeper = UIHelper.CreatePortrait("Shopkeeper", transform,
-                "Characters/Que_sprite", 160, 300);
-            shopkeeper.anchorMin = shopkeeper.anchorMax = new Vector2(0.18f, 0.14f);
+                "Characters/Que_sprite", 200, 380);
+            shopkeeper.anchorMin = shopkeeper.anchorMax = new Vector2(0.18f, 0.12f);
             shopkeeper.anchoredPosition = Vector2.zero;
 
             _customerSlot = UIHelper.CreateRect("CustomerSlot", transform);
