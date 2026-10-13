@@ -1,0 +1,25 @@
+from PIL import Image, ImageDraw
+red = (198, 48, 48, 255)
+outline = (92, 64, 52, 255)
+skin = (244, 214, 176, 255)
+shirt = (92, 146, 176, 255)
+shirt2 = (176, 112, 92, 255)
+
+angry = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+draw = ImageDraw.Draw(angry)
+draw.arc((4, 34, 24, 58), 210, 345, fill=red, width=6)
+draw.arc((22, 36, 42, 60), 195, 345, fill=red, width=6)
+draw.arc((40, 34, 60, 58), 195, 330, fill=red, width=6)
+draw.arc((17, 4, 47, 30), 25, 155, fill=red, width=6)
+angry.save(r'WelCome/Assets/Art/OpenShop/customer_mood_angry.png')
+
+browse = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+draw = ImageDraw.Draw(browse)
+def person(x, shirt_color):
+    draw.ellipse((x, 8, x+16, 24), fill=skin, outline=outline, width=2)
+    draw.rounded_rectangle((x-2, 26, x+18, 52), radius=6, fill=shirt_color, outline=outline, width=2)
+person(10, shirt)
+person(36, shirt2)
+draw.line((27, 36, 35, 36), fill=outline, width=3)
+browse.save(r'WelCome/Assets/Art/OpenShop/customer_mood_browse.png')
+print('updated')

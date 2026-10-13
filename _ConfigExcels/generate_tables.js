@@ -50,6 +50,9 @@ console.log('Creating __tables__.xlsx ...');
         ['', 'TbCustomer', 'Customer', true, 'id', 'map', 'c', '顾客表', 'customer.xlsx', '', ''],
         ['', 'TbAvgStory', 'AvgStory', true, 'id', 'map', 'c', 'AVG剧情组', 'avg_story.xlsx', '', ''],
         ['', 'TbAvgEvent', 'AvgEvent', true, 'id', 'map', 'c', 'AVG对话事件', 'avg_event.xlsx', '', ''],
+        ['', 'TbDisplayCase', 'DisplayCase', true, 'id', 'map', 'c', '陈列柜配置表', 'display_case.xlsx', '', ''],
+        ['', 'TbShopBehavior', 'ShopBehavior', true, '', 'one', 'c', '街区行为全局参数', 'shop_behavior.xlsx', '', ''],
+        ['', 'TbShopNpcProfile', 'ShopNpcProfile', true, 'id', 'map', 'c', '街区人物行为档案', 'shop_npc_profile.xlsx', '', ''],
     ];
     writeXlsx('__tables__.xlsx', 'tables', headers, rows);
 }
@@ -265,6 +268,94 @@ console.log('Creating avg_event.xlsx ...');
     XLSX.utils.book_append_sheet(wb, ws, 'avg_event');
     XLSX.writeFile(wb, path.join(DATAS, 'avg_event.xlsx'));
     console.log('  Created: avg_event.xlsx');
+}
+
+// ============================================================
+// 12. shop_behavior.xlsx (singleton)
+// ============================================================
+console.log('Creating shop_behavior.xlsx ...');
+{
+    const headers = [
+        '##var', 'notice_radius', 'notice_reset_margin', 'glance_min_seconds', 'glance_max_seconds',
+        'notice_thought_bubble_chance', 'browse_thought_bubble_chance', 'unhappy_bubble_chance',
+        'unhappy_bubble_seconds', 'display_bonus_per_item', 'hurry_entry_penalty', 'social_check_interval', 'greeting_radius',
+        'greeting_chance', 'conversation_radius',
+        'conversation_chance', 'conversation_min_seconds', 'conversation_max_seconds',
+        'door_keepout_radius', 'social_cooldown_seconds', 'customer_count',
+        'customer_spawn_interval', 'passerby_count', 'passerby_spawn_interval',
+        'empty_display_leave_threshold', 'empty_display_bubble_seconds',
+        'passerby_lane_count', 'passerby_right_to_left_chance',
+        'passerby_speed_variation_percent',
+        'greeting_recognition_radius', 'greeting_approach_speed_multiplier',
+        'greeting_approach_max_seconds', 'social_reaction_seconds', 'social_farewell_seconds'
+    ];
+    const typeRow = [
+        '##type', 'float', 'float', 'float', 'float', 'int', 'int', 'int', 'float', 'int', 'int', 'float', 'float', 'int',
+        'float', 'float', 'float', 'float', 'float', 'int', 'float', 'float', 'float', 'float', 'float', 'float', 'int', 'float', 'int', 'float', 'int', 'float',
+        'int', 'int', 'int', 'int', 'float', 'float', 'float', 'float', 'float'
+    ];
+    const commentRow = [
+        '##comment', '店铺门口注意范围', '离开注意范围后额外移动多远才允许再次观察',
+        '驻足观察最短时间(s)', '驻足观察最长时间(s)', '门口思考时出现气泡的概率(%)',
+        '货架思考时出现气泡的概率(%)', '偏好不匹配后出现低落气泡的概率(%)', '低落气泡停留时间(s)',
+        '每件陈列商品增加的进店吸引力(%)',
+        '赶时间对进店概率的削减(%)', '社交行为检查间隔(s)', '熟人相遇触发距离',
+        '熟人相遇打招呼概率(%)', 
+        '普通闲聊触发距离', '普通闲聊概率(%)', '闲聊最短时间(s)', '闲聊最长时间(s)',
+        '门口和柜台周围禁止社交的半径', '社交结束后的冷却时间(s)',
+        '店内顾客目标数量（后续可由街区等级动态调整）', '离店后补充店内顾客的间隔(s)',
+        '横穿街道的路人同时存在数量上限', '横穿路人补充间隔(s)',
+        '连续看到空展台后强制离店的次数', '空展台反馈气泡显示时间(s)',
+        '街道横穿路线数量', '路人从右往左通行的概率(%)',
+        '路人速度随机浮动范围(+/- %)', 
+        '熟人远距离认出的半径', '打招呼前短距离靠近的速度倍率', '靠近会面位置的最长时间(s)', '熟人表情每次停留时间(s)', '熟人结束时告别表情停留时间(s)'
+    ];
+    const dataRow = [
+        '', 3.2, 2.5, 0.8, 1.4, 90, 85, 55, 0.9, 12, 60, 0.4, 1.2, 60, 1.0, 1.8, 1.35, 20, 3.0, 5.5, 1.8, 18, 24, 4.5, 24, 1.4, 3, 2.0, 6, 45, 35, 80, 4.5, 1.7, 3.5, 1.5, 1.2
+    ];
+    const ws = XLSX.utils.aoa_to_sheet([headers, typeRow, commentRow, dataRow]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'shop_behavior');
+    XLSX.writeFile(wb, path.join(DATAS, 'shop_behavior.xlsx'));
+    console.log('  Created: shop_behavior.xlsx');
+}
+
+// ============================================================
+// 13. shop_npc_profile.xlsx
+// ============================================================
+console.log('Creating shop_npc_profile.xlsx ...');
+{
+    const headers = [
+        '##var', 'id', 'profile_name', 'outdoor_only', 'pass_through', 'notice_chance', 'enter_chance', 'curiosity',
+        'sociability', 'hurry', 'preferred_need_tag', 'social_group_id', 'browse_weight', 'counter_weight', 'leave_weight',
+        'wander_weight', 'move_speed', 'pause_min', 'pause_max'
+    ];
+    const typeRow = [
+        '##type', 'int', 'string', 'bool', 'bool', 'int', 'int', 'int', 'int', 'int', 'int', 'int', 'int', 'int',
+        'int', 'int', 'float', 'float', 'float', 'float', 'float'
+    ];
+    const commentRow = [
+        '##comment', '档案ID（场景角色引用）', '人物行为说明', '不会进店；若横穿街道需同时启用 pass_through',
+        '从街道两侧横穿，可按注意率和进店概率改变路线',
+        '经过店门时注意到店铺的概率(%)', '注意后决定进店的基础概率(%)', '好奇心(%)',
+        '社交倾向(%)', '赶时间程度(%)', '偏好商品需求类别；0表示不限', '同熟人圈ID的人物视为彼此认识；0表示没有熟人圈',
+        '浏览陈列柜权重', '靠近柜台权重', '离店权重', '室内闲逛权重',
+        '移动速度(世界单位/s)', '普通停留最短时间(s)', '普通停留最长时间(s)'
+    ];
+    const rows = [
+        ['', 1001, '路过街坊 A', true, true, 6, 0, 20, 60, 20, 0, 1, 0, 0, 0, 0, 0.92, 0.4, 0.8],
+        ['', 1002, '路过街坊 B', true, true, 22, 0, 45, 90, 5, 0, 1, 0, 0, 0, 0, 0.92, 0.4, 0.8],
+        ['', 1003, '好奇路人', false, false, 70, 62, 90, 35, 10, 1, 0, 58, 16, 12, 14, 0.78, 0.8, 2.3],
+        ['', 1004, '赶路的路人', false, false, 18, 25, 35, 20, 75, 2, 0, 40, 8, 32, 20, 0.84, 0.5, 1.4],
+        ['', 1005, '普通顾客', false, false, 30, 45, 55, 35, 25, 3, 2, 65, 15, 12, 8, 0.72, 0.8, 2.8],
+        ['', 1006, '熟客', false, false, 45, 70, 80, 80, 10, 1, 2, 45, 25, 10, 20, 0.72, 1.0, 3.0],
+        ['', 1007, '对商品好奇的路人', false, true, 42, 48, 75, 35, 25, 1, 0, 55, 15, 20, 10, 1.05, 0.8, 1.8]
+    ];
+    const ws = XLSX.utils.aoa_to_sheet([headers, typeRow, commentRow, ...rows]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'shop_npc_profile');
+    XLSX.writeFile(wb, path.join(DATAS, 'shop_npc_profile.xlsx'));
+    console.log('  Created: shop_npc_profile.xlsx');
 }
 
 // ============================================================

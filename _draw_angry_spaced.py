@@ -1,0 +1,10 @@
+from PIL import Image, ImageDraw
+image = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+draw = ImageDraw.Draw(image)
+red = (176, 42, 48, 255)
+draw.arc((2, 38, 20, 60), 220, 350, fill=red, width=5)
+draw.arc((23, 40, 41, 62), 200, 340, fill=red, width=5)
+draw.arc((44, 38, 62, 60), 190, 320, fill=red, width=5)
+draw.arc((20, 2, 44, 25), 20, 160, fill=red, width=5)
+image.save(r'WelCome/Assets/Art/OpenShop/customer_mood_angry.png')
+print(image.getbbox())

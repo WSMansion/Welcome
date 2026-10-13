@@ -46,6 +46,18 @@ public partial class Tables
     /// AVG对话事件
     /// </summary>
     public TbAvgEvent TbAvgEvent {get; }
+    /// <summary>
+    /// 陈列柜配置表
+    /// </summary>
+    public TbDisplayCase TbDisplayCase {get; }
+    /// <summary>
+    /// 街区行为全局参数
+    /// </summary>
+    public TbShopBehavior TbShopBehavior {get; }
+    /// <summary>
+    /// 街区人物行为档案
+    /// </summary>
+    public TbShopNpcProfile TbShopNpcProfile {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
@@ -57,6 +69,9 @@ public partial class Tables
         TbCustomer = new TbCustomer(loader("tbcustomer"));
         TbAvgStory = new TbAvgStory(loader("tbavgstory"));
         TbAvgEvent = new TbAvgEvent(loader("tbavgevent"));
+        TbDisplayCase = new TbDisplayCase(loader("tbdisplaycase"));
+        TbShopBehavior = new TbShopBehavior(loader("tbshopbehavior"));
+        TbShopNpcProfile = new TbShopNpcProfile(loader("tbshopnpcprofile"));
         ResolveRef();
     }
     
@@ -70,6 +85,9 @@ public partial class Tables
         TbCustomer.ResolveRef(this);
         TbAvgStory.ResolveRef(this);
         TbAvgEvent.ResolveRef(this);
+        TbDisplayCase.ResolveRef(this);
+        TbShopBehavior.ResolveRef(this);
+        TbShopNpcProfile.ResolveRef(this);
     }
 }
 

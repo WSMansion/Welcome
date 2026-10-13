@@ -49,6 +49,7 @@ namespace WelCome.UI
             RegisterPanel<PopupPanel>();
             RegisterPanel<SettingsPanel>();
             RegisterPanel<SaveSlotPanel>();
+            RegisterPanel<DisplayCaseStockPanel>();
         }
 
         private void RegisterPanel<T>() where T : UIPanel

@@ -1,0 +1,18 @@
+const XLSX = require('./_ConfigExcels/node_modules/xlsx');
+const file = '_ConfigExcels/Datas/shop_behavior.xlsx';
+const wb = XLSX.readFile(file);
+const ws = wb.Sheets[wb.SheetNames[0]];
+const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:false});
+const headers = rows[0];
+const types = rows[1];
+const comments = rows[2];
+const values = rows[3];
+const index = headers.indexOf('social_reaction_seconds');
+if (index < 0) throw new Error('column missing');
+headers.splice(index, 0, 'social_reaction_total_seconds');
+types.splice(index, 0, 'float');
+comments.splice(index, 0, '熟人相遇后表情轮换总时间(s)');
+values.splice(index, 0, 4.5);
+wb.Sheets[wb.SheetNames[0]] = XLSX.utils.aoa_to_sheet([headers, types, comments, values]);
+XLSX.writeFile(wb, file);
+console.log('inserted', headers.length);

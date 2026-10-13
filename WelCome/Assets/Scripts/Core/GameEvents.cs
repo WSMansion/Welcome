@@ -42,6 +42,7 @@ namespace WelCome.Core
 
     public struct EventCompletedEvent { public int EventId; }
     public struct CustomerArrivedEvent { public int CustomerId; }
+    public struct DisplayCasesChangedEvent { public int DayNumber; }
 
     public struct ProductSoldEvent
     {

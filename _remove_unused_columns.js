@@ -1,0 +1,11 @@
+const XLSX = require('./_ConfigExcels/node_modules/xlsx');
+const file = '_ConfigExcels/Datas/shop_behavior.xlsx';
+const wb = XLSX.readFile(file);
+const ws = wb.Sheets[wb.SheetNames[0]];
+const rows = XLSX.utils.sheet_to_json(ws, {header:1});
+const remove = new Set(['greeting_min_seconds', 'greeting_max_seconds', 'greeting_happy_chance']);
+const indexes = rows[0].map((name, index) => remove.has(name) ? index : -1).filter(index => index >= 0).sort((a,b)=>b-a);
+for (const row of rows) for (const index of indexes) row.splice(index, 1);
+wb.Sheets[wb.SheetNames[0]] = XLSX.utils.aoa_to_sheet(rows);
+XLSX.writeFile(wb, file);
+console.log(indexes.length, rows[0].length);

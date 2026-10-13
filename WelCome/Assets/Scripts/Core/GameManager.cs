@@ -19,6 +19,7 @@ namespace WelCome.Core
             Systems.ResourceSystem.Instance.ResetAll();
             Systems.DayEventSystem.Instance.ClearAll();
             Systems.WorkshopSystem.Instance.ClearInventory();
+            Systems.DisplayCaseSystem.Instance.ResetProgress();
             ChangeState(GameState.DayPhase);
         }
 
