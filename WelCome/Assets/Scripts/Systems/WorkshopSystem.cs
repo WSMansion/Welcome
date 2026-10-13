@@ -78,6 +78,12 @@ namespace WelCome.Systems
             return _inventory.Remove(product);
         }
 
+        public void AddToInventory(ProductInstance product)
+        {
+            if (product != null)
+                _inventory.Add(product);
+        }
+
         public void RecordSale(int price)
         {
             TonightRevenue += price;

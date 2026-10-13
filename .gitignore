@@ -79,3 +79,5 @@ Desktop.ini
 .plastic
 _ConfigExcels/Datas/~$*.xlsx
 TestCursor/
+/.cursor/
+/.codex/config.toml

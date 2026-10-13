@@ -159,6 +159,9 @@ namespace WelCome.Core
                 magicPointsMax = res.MagicPointsMax,
                 attention = res.Attention,
                 support = res.Support,
+                unlockedDisplayCaseIds = DisplayCaseSystem.Instance.GetUnlockedCaseIds(),
+                displayCaseStock = DisplayCaseSystem.Instance.GetStockForSave(),
+                displayCasePlacements = DisplayCaseSystem.Instance.GetPlacementsForSave(),
             };
 
             foreach (var kv in res.Materials)
@@ -187,6 +190,8 @@ namespace WelCome.Core
         {
             ResourceSystem.Instance.LoadState(data.gold, data.magicPointsMax,
                 data.attention, data.support, data.materials);
+            DisplayCaseSystem.Instance.LoadProgress(data.unlockedDisplayCaseIds,
+                data.displayCaseStock, data.displayCasePlacements);
             DayEventSystem.Instance.LoadCompletedIds(data.completedEventIds);
             WorkshopSystem.Instance.LoadInventory(data.inventory);
             GameManager.Instance.LoadGame(data.currentDay);

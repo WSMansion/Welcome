@@ -22,10 +22,12 @@ namespace WelCome.Core
             _ = DayEventSystem.Instance;
             _ = WorkshopSystem.Instance;
             _ = CustomerSystem.Instance;
+            _ = DisplayCaseSystem.Instance;
             _ = SettlementSystem.Instance;
             _ = AVGSystem.Instance;
             _ = UIManager.Instance;
             _ = GameManager.Instance;
+            DisplayCaseConfigurationBootstrap.InitializeForDay(GameManager.Instance.CurrentDay);
 
             Debug.Log("[GameBootstrap] All systems initialized.");
         }

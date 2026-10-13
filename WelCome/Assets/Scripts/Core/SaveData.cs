@@ -18,6 +18,9 @@ namespace WelCome.Core
         public List<MaterialEntry> materials = new();
         public List<int> completedEventIds = new();
         public List<ProductEntry> inventory = new();
+        public List<int> unlockedDisplayCaseIds = new();
+        public List<DisplayCaseStockEntry> displayCaseStock = new();
+        public List<DisplayCasePlacementEntry> displayCasePlacements = new();
 
         public float masterVolume = 1f;
         public float musicVolume = 0.7f;
@@ -40,5 +43,23 @@ namespace WelCome.Core
         public int quality;
         public int needTag;
         public int daysOld;
+    }
+
+    [Serializable]
+    public class DisplayCaseStockEntry
+    {
+        public int caseId;
+        public int slotIndex;
+        public ProductEntry product;
+    }
+
+    [Serializable]
+    public class DisplayCasePlacementEntry
+    {
+        public int caseId;
+        public float x;
+        public float y;
+        public float z;
+        public float rotationZ;
     }
 }

@@ -1,0 +1,86 @@
+[
+  {
+    "id": 8101,
+    "display_name": "西侧陈列架01",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8102,
+    "display_name": "西侧陈列架02",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8103,
+    "display_name": "西侧陈列架03",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8104,
+    "display_name": "西侧陈列架04",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8105,
+    "display_name": "西侧陈列架05",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8106,
+    "display_name": "西侧陈列架06",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8111,
+    "display_name": "东侧陈列架01",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8112,
+    "display_name": "东侧陈列架02",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8113,
+    "display_name": "东侧陈列架03",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8114,
+    "display_name": "东侧陈列架04",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8115,
+    "display_name": "东侧陈列架05",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  },
+  {
+    "id": 8116,
+    "display_name": "东侧陈列架06",
+    "prefab_key": "display_basic",
+    "unlock_day": 1,
+    "slot_count": 2
+  }
+]
