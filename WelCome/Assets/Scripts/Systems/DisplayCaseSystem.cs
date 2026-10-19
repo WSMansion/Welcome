@@ -303,7 +303,18 @@ namespace WelCome.Systems
             return null;
         }
 
-        private static ProductEntry ToSaveEntry(ProductInstance product)
+        
+        public bool TrySetDisplayedPrice(int caseId, int slotIndex, int price)
+        {
+            DisplayCaseStockEntry entry = FindStockEntry(caseId, slotIndex);
+            if (entry == null || entry.product == null || price <= 0)
+                return false;
+
+            entry.product.listedPrice = price;
+            EventBus.Publish(new DisplayCasesChangedEvent { DayNumber = GameManager.Instance.CurrentDay });
+            return true;
+        }
+private static ProductEntry ToSaveEntry(ProductInstance product)
         {
             return new ProductEntry
             {
@@ -312,7 +323,8 @@ namespace WelCome.Systems
                 basePrice = product.BasePrice,
                 quality = (int)product.Quality,
                 needTag = product.NeedTag,
-                daysOld = product.DaysOld
+                daysOld = product.DaysOld,
+                listedPrice = product.ListedPrice
             };
         }
 
@@ -327,7 +339,8 @@ namespace WelCome.Systems
                 BasePrice = entry.basePrice,
                 Quality = (ProductQuality)entry.quality,
                 NeedTag = entry.needTag,
-                DaysOld = entry.daysOld
+                DaysOld = entry.daysOld,
+                ListedPrice = entry.listedPrice
             };
         }
 
@@ -344,7 +357,8 @@ namespace WelCome.Systems
                     basePrice = entry.product.basePrice,
                     quality = entry.product.quality,
                     needTag = entry.product.needTag,
-                    daysOld = entry.product.daysOld
+                    daysOld = entry.product.daysOld,
+                    listedPrice = entry.product.listedPrice
                 }
             };
         }

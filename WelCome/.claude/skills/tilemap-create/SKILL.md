@@ -55,8 +55,8 @@ Read the /unity-initial-setup skill for detailed installation instructions.
 |------|------|----------|-------------|
 | `gridName` | `string` | No | Name of the Grid GameObject. |
 | `tilemapName` | `string` | No | Name of the child Tilemap GameObject. |
-| `parentRef` | `any` | No | Optional GameObject to parent the new Grid under. |
-| `cellSize` | `any` | No | Grid cell size. Defaults to (1,1,0). |
+| `parentRef` | `string` | No | Optional GameObject to parent the new Grid under. RQL: GameObjectRef |
+| `cellSize` | `string` | No | Grid cell size. Defaults to (1,1,0). RQL: Vector3 |
 
 ### Input JSON Schema
 
@@ -71,68 +71,10 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       "type": "string"
     },
     "parentRef": {
-      "$ref": "#/$defs/AIGD.GameObjectRef"
-    },
-    "cellSize": {
-      "$ref": "#/$defs/UnityEngine.Vector3"
-    }
-  },
-  "$defs": {
-    "System.Type": {
       "type": "string"
     },
-    "AIGD.GameObjectRef": {
-      "type": "object",
-      "properties": {
-        "instanceID": {
-          "type": "integer",
-          "description": "instanceID of the UnityEngine.Object. If it is '0' and 'path', 'name', 'assetPath' and 'assetGuid' is not provided, empty or null, then it will be used as 'null'. Priority: 1 (Recommended)"
-        },
-        "path": {
-          "type": "string",
-          "description": "Path of a GameObject in the hierarchy Sample 'character/hand/finger/particle'. Priority: 2."
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of a GameObject in hierarchy. Priority: 3."
-        },
-        "assetType": {
-          "$ref": "#/$defs/System.Type",
-          "description": "Type of the asset."
-        },
-        "assetPath": {
-          "type": "string",
-          "description": "Path to the asset within the project. Starts with 'Assets/'"
-        },
-        "assetGuid": {
-          "type": "string",
-          "description": "Unique identifier for the asset."
-        }
-      },
-      "required": [
-        "instanceID"
-      ],
-      "description": "Find GameObject in opened Prefab or in the active Scene."
-    },
-    "UnityEngine.Vector3": {
-      "type": "object",
-      "properties": {
-        "x": {
-          "type": "number"
-        },
-        "y": {
-          "type": "number"
-        },
-        "z": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "x",
-        "y",
-        "z"
-      ],
-      "additionalProperties": false
+    "cellSize": {
+      "type": "string"
     }
   }
 }
@@ -140,120 +82,5 @@ Read the /unity-initial-setup skill for detailed installation instructions.
 
 ## Output
 
-### Output JSON Schema
-
-```json
-{
-  "type": "object",
-  "properties": {
-    "result": {
-      "$ref": "#/$defs/com.IvanMurzak.Unity.MCP.Editor.API.Tool_Tilemap-CreateResponse"
-    }
-  },
-  "$defs": {
-    "AIGD.GameObjectRef": {
-      "type": "object",
-      "properties": {
-        "instanceID": {
-          "type": "integer",
-          "description": "instanceID of the UnityEngine.Object. If it is '0' and 'path', 'name', 'assetPath' and 'assetGuid' is not provided, empty or null, then it will be used as 'null'. Priority: 1 (Recommended)"
-        },
-        "path": {
-          "type": "string",
-          "description": "Path of a GameObject in the hierarchy Sample 'character/hand/finger/particle'. Priority: 2."
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of a GameObject in hierarchy. Priority: 3."
-        },
-        "assetType": {
-          "$ref": "#/$defs/System.Type",
-          "description": "Type of the asset."
-        },
-        "assetPath": {
-          "type": "string",
-          "description": "Path to the asset within the project. Starts with 'Assets/'"
-        },
-        "assetGuid": {
-          "type": "string",
-          "description": "Unique identifier for the asset."
-        }
-      },
-      "required": [
-        "instanceID"
-      ],
-      "description": "Find GameObject in opened Prefab or in the active Scene."
-    },
-    "System.Type": {
-      "type": "string"
-    },
-    "AIGD.ComponentRef": {
-      "type": "object",
-      "properties": {
-        "index": {
-          "type": "integer",
-          "description": "Component 'index' attached to a gameObject. The first index is '0' and that is usually Transform or RectTransform. Priority: 2. Default value is -1."
-        },
-        "typeName": {
-          "type": "string",
-          "description": "Component type full name. Sample 'UnityEngine.Transform'. If the gameObject has two components of the same type, the output component is unpredictable. Priority: 3. Default value is null."
-        },
-        "instanceID": {
-          "type": "integer",
-          "description": "instanceID of the UnityEngine.Object. If this is '0', then it will be used as 'null'."
-        }
-      },
-      "required": [
-        "index",
-        "instanceID"
-      ],
-      "description": "Component reference. Used to find a Component at GameObject."
-    },
-    "com.IvanMurzak.Unity.MCP.Editor.API.Tool_Tilemap-CreateResponse": {
-      "type": "object",
-      "properties": {
-        "gridRef": {
-          "$ref": "#/$defs/AIGD.GameObjectRef",
-          "description": "Reference to the created Grid GameObject."
-        },
-        "tilemapGameObjectRef": {
-          "$ref": "#/$defs/AIGD.GameObjectRef",
-          "description": "Reference to the created Tilemap GameObject."
-        },
-        "tilemapRef": {
-          "$ref": "#/$defs/AIGD.ComponentRef",
-          "description": "Reference to the created Tilemap component."
-        },
-        "rendererRef": {
-          "$ref": "#/$defs/AIGD.ComponentRef",
-          "description": "Reference to the created TilemapRenderer component."
-        },
-        "instanceId": {
-          "type": "integer",
-          "description": "Instance id of the created Tilemap GameObject."
-        },
-        "gridName": {
-          "type": "string",
-          "description": "Name of the created Grid GameObject."
-        },
-        "tilemapName": {
-          "type": "string",
-          "description": "Name of the created Tilemap GameObject."
-        },
-        "success": {
-          "type": "boolean",
-          "description": "Whether the operation succeeded."
-        }
-      },
-      "required": [
-        "instanceId",
-        "success"
-      ]
-    }
-  },
-  "required": [
-    "result"
-  ]
-}
-```
+This tool does not return structured output.
 

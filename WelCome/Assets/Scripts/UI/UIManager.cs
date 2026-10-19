@@ -49,7 +49,29 @@ namespace WelCome.UI
             RegisterPanel<PopupPanel>();
             RegisterPanel<SettingsPanel>();
             RegisterPanel<SaveSlotPanel>();
-            RegisterPanel<DisplayCaseStockPanel>();
+            RegisterDisplayCaseStockPanel();
+        }
+
+        private void RegisterDisplayCaseStockPanel()
+        {
+            ShopUiPrefabs[] sources = FindObjectsByType<ShopUiPrefabs>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            DisplayCaseStockPanel prefab = sources.Length > 0 ? sources[0].DisplayCaseStockPanelPrefab : null;
+            if (prefab == null)
+            {
+                RegisterPanel<DisplayCaseStockPanel>();
+                return;
+            }
+
+            DisplayCaseStockPanel panel = Instantiate(prefab, _canvas.transform, false);
+            panel.gameObject.name = nameof(DisplayCaseStockPanel);
+            RectTransform rect = panel.GetComponent<RectTransform>();
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.localScale = Vector3.one;
+            panel.Hide();
+            _panels[typeof(DisplayCaseStockPanel)] = panel;
         }
 
         private void RegisterPanel<T>() where T : UIPanel

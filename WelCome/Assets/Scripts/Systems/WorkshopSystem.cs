@@ -35,7 +35,8 @@ namespace WelCome.Systems
                     BasePrice = e.basePrice,
                     Quality = (ProductQuality)e.quality,
                     NeedTag = e.needTag,
-                    DaysOld = e.daysOld
+                    DaysOld = e.daysOld,
+                    ListedPrice = e.listedPrice
                 });
             }
         }

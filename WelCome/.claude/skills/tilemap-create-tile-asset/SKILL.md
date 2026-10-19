@@ -55,7 +55,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
 |------|------|----------|-------------|
 | `assetPath` | `string` | Yes | Assets/-rooted path ending in '.asset' for the new Tile asset. |
 | `spriteAssetPath` | `string` | No | Optional Assets/-rooted path to a Sprite asset to assign to the tile. |
-| `color` | `any` | No | Optional tile color (default white). |
+| `color` | `string` | No | Optional tile color (default white). RQL: Color |
 | `colliderType` | `string` | No | Optional collider type (default Sprite). |
 
 ### Input JSON Schema
@@ -71,7 +71,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       "type": "string"
     },
     "color": {
-      "$ref": "#/$defs/UnityEngine.Color"
+      "type": "string"
     },
     "colliderType": {
       "type": "string",
@@ -82,40 +82,6 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       ]
     }
   },
-  "$defs": {
-    "UnityEngine.Color": {
-      "type": "object",
-      "properties": {
-        "r": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "g": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "b": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "a": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        }
-      },
-      "required": [
-        "r",
-        "g",
-        "b",
-        "a"
-      ],
-      "additionalProperties": false
-    }
-  },
   "required": [
     "assetPath"
   ]
@@ -124,82 +90,5 @@ Read the /unity-initial-setup skill for detailed installation instructions.
 
 ## Output
 
-### Output JSON Schema
-
-```json
-{
-  "type": "object",
-  "properties": {
-    "result": {
-      "$ref": "#/$defs/com.IvanMurzak.Unity.MCP.Editor.API.Tool_Tilemap-CreateTileAssetResponse"
-    }
-  },
-  "$defs": {
-    "UnityEngine.Color": {
-      "type": "object",
-      "properties": {
-        "r": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "g": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "b": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "a": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        }
-      },
-      "required": [
-        "r",
-        "g",
-        "b",
-        "a"
-      ],
-      "additionalProperties": false
-    },
-    "com.IvanMurzak.Unity.MCP.Editor.API.Tool_Tilemap-CreateTileAssetResponse": {
-      "type": "object",
-      "properties": {
-        "assetPath": {
-          "type": "string",
-          "description": "Path of the created Tile asset."
-        },
-        "spriteAssetPath": {
-          "type": "string",
-          "description": "Path of the assigned Sprite asset, or null."
-        },
-        "color": {
-          "$ref": "#/$defs/UnityEngine.Color",
-          "description": "Tile color."
-        },
-        "colliderType": {
-          "type": "string",
-          "description": "Tile collider type."
-        },
-        "success": {
-          "type": "boolean",
-          "description": "Whether the operation succeeded."
-        }
-      },
-      "required": [
-        "color",
-        "success"
-      ]
-    }
-  },
-  "required": [
-    "result"
-  ]
-}
-```
+This tool does not return structured output.
 

@@ -50,6 +50,7 @@ namespace WelCome.World
         private bool showingUnhappyBrowseOutcome;
         private float socialTimer;
         private float greetingSymbolTimer;
+        private float farewellTimer;
         private float pendingSocialDuration;
         private float socialApproachSpeedMultiplier = 1f;
         private float socialApproachMaxSeconds;
@@ -167,9 +168,24 @@ namespace WelCome.World
                 return;
 
             UpdateInteractionIndicator(Time.deltaTime);
+            UpdateThoughtSorting();
             if (socializing)
             {
                 UpdateSocialInteraction();
+                return;
+            }
+
+            if (farewellTimer > 0f)
+            {
+                farewellTimer -= Time.deltaTime;
+                FacePartner(null);
+                animationBinding.SetExternalMotion(lastDirection, false, Time.deltaTime);
+                UpdateInteractionIndicator(Time.deltaTime);
+                if (farewellTimer <= 0f)
+                {
+                    ClearInteractionIndicator();
+                    ChooseNextDestination();
+                }
                 return;
             }
 
@@ -729,6 +745,14 @@ namespace WelCome.World
             return true;
         }
 
+        private void MatchTravelSpeed(ShopCustomerWanderAI partner)
+        {
+            float ownSpeed = Mathf.Max(0.1f, profile.MoveSpeed) * streetSpeedMultiplier;
+            float partnerSpeed = Mathf.Max(0.1f, partner.profile.MoveSpeed) * partner.streetSpeedMultiplier;
+            float sharedSpeed = (ownSpeed + partnerSpeed) * 0.5f;
+            streetSpeedMultiplier = sharedSpeed / Mathf.Max(0.1f, profile.MoveSpeed);
+        }
+
         private void ResumeStreetPassThrough()
         {
             path.Clear();
@@ -905,16 +929,27 @@ namespace WelCome.World
 
             FacePartner(socialPartner);
             animationBinding.SetExternalMotion(lastDirection, false, Time.deltaTime);
-            socialTimer -= Time.deltaTime;
             if (socialGreeting)
             {
                 greetingSymbolTimer -= Time.deltaTime;
-                if (greetingSymbolTimer <= 0f && socialTimer > 0f)
+                if (greetingSymbolTimer > 0f)
+                    return;
+
+                socialTimer -= SocialReactionSeconds;
+                if (socialTimer > 0.05f)
+                {
                     ShowNextSocialReaction();
+                    return;
+                }
+            }
+            else
+            {
+                socialTimer -= Time.deltaTime;
+                if (socialTimer > 0f)
+                    return;
             }
 
-            if (socialTimer <= 0f)
-                FinishSocialInteraction();
+            FinishSocialInteraction();
         }
 
         private void UpdateSocialApproach()
@@ -1016,25 +1051,45 @@ namespace WelCome.World
             socialGreeting = false;
             socialApproaching = false;
             socialApproachReached = false;
+            bool sameDirection = socialPartner != null
+                && hasStreetPassThroughDestination
+                && socialPartner.hasStreetPassThroughDestination
+                && streetDirection == socialPartner.streetDirection;
+            if (sameDirection)
+                MatchTravelSpeed(socialPartner);
+            bool showClosingIcon = socialPartner != null;
             socialPartner = null;
-            bool showFarewell = socialPartner != null;
-            bool browseTogether = showFarewell && !navigation.IsOutside(transform.position) && !navigation.IsOutside(socialPartner.transform.position);
             socialTimer = 0f;
             greetingSymbolTimer = 0f;
             pendingSocialDuration = 0f;
             path.Clear();
             nextPathIndex = 0;
-            if (showFarewell)
-                ShowFarewellIndicator(browseTogether);
+            if (showClosingIcon)
+            {
+                ShowFarewellIndicator(sameDirection);
+                farewellTimer = behaviorSettings == null
+                    ? 1.2f
+                    : Mathf.Max(0.2f, behaviorSettings.SocialFarewellSeconds);
+            }
             else
+            {
                 ClearInteractionIndicator();
-            ChooseNextDestination();
+            }
+
+            if (farewellTimer <= 0f)
+                ChooseNextDestination();
         }
 
         internal void CancelSocialInteractionFromPartner(ShopCustomerWanderAI partner)
         {
             if (socialPartner != partner)
                 return;
+            bool sameDirection = hasStreetPassThroughDestination
+                && partner != null
+                && partner.hasStreetPassThroughDestination
+                && streetDirection == partner.streetDirection;
+            if (sameDirection)
+                MatchTravelSpeed(partner);
             socializing = false;
             socialPartner = null;
             socialApproaching = false;
@@ -1044,9 +1099,10 @@ namespace WelCome.World
             pendingSocialDuration = 0f;
             path.Clear();
             nextPathIndex = 0;
-            ClearInteractionIndicator();
-            if (enabled && profile != null)
-                ChooseNextDestination();
+            ShowFarewellIndicator(sameDirection);
+            farewellTimer = behaviorSettings == null
+                ? 1.2f
+                : Mathf.Max(0.2f, behaviorSettings.SocialFarewellSeconds);
         }
 
         private void ReleaseBrowseReservation()
@@ -1059,9 +1115,9 @@ namespace WelCome.World
             browseThoughtBubbleShown = false;
         }
 
-        private void ShowFarewellIndicator(bool browseTogether)
+        private void ShowFarewellIndicator(bool travelTogether)
         {
-            ShowBubbleIcon(browseTogether
+            ShowBubbleIcon(travelTogether
                     ? ShopCustomerSpeechBubble.IconKind.BrowseTogether
                     : ShopCustomerSpeechBubble.IconKind.Wave,
                 behaviorSettings == null ? 1.2f : Mathf.Max(0.2f, behaviorSettings.SocialFarewellSeconds));
@@ -1117,8 +1173,8 @@ namespace WelCome.World
             if (renderer == null)
                 return;
 
-            renderer.sortingLayerID = animationBinding.spriteRenderer.sortingLayerID;
-            renderer.sortingOrder = animationBinding.spriteRenderer.sortingOrder + 3;
+            renderer.sortingLayerID = HudSortingLayerId;
+            renderer.sortingOrder = HudSortingOrder(4);
         }
 
         private void ShowUnhappyInteractionIndicator(float duration)
@@ -1191,13 +1247,20 @@ namespace WelCome.World
             UpdateThoughtSorting();
         }
 
+        private static int HudSortingLayerId => SortingLayer.NameToID("HUD");
+
+        private int HudSortingOrder(int localOffset)
+        {
+            return 1000 + Mathf.RoundToInt(-transform.position.y * 10f) + localOffset;
+        }
+
         private void UpdateIndicatorSortingOrder()
         {
             if (interactionBubble == null || animationBinding == null
                 || animationBinding.spriteRenderer == null)
                 return;
-            interactionBubble.SetSorting(animationBinding.spriteRenderer.sortingLayerID,
-                animationBinding.spriteRenderer.sortingOrder + 2);
+            interactionBubble.SetSorting(HudSortingLayerId,
+                HudSortingOrder(2));
         }
 
         private void HideThoughtText()

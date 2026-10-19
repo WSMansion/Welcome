@@ -27,6 +27,7 @@ public sealed partial class Recipe : Luban.BeanBase
         { if(!_buf["base_price"].IsNumber) { throw new SerializationException(); }  BasePrice = _buf["base_price"]; }
         { if(!_buf["need_tag"].IsNumber) { throw new SerializationException(); }  NeedTag = _buf["need_tag"]; }
         { if(!_buf["unlock_day"].IsNumber) { throw new SerializationException(); }  UnlockDay = _buf["unlock_day"]; }
+        { if(!_buf["icon"].IsString) { throw new SerializationException(); }  Icon = _buf["icon"]; }
     }
 
     public static Recipe DeserializeRecipe(JSONNode _buf)
@@ -74,6 +75,10 @@ public sealed partial class Recipe : Luban.BeanBase
     /// 解锁天数
     /// </summary>
     public readonly int UnlockDay;
+    /// <summary>
+    /// 图标资源路径
+    /// </summary>
+    public readonly string Icon;
    
     public const int __ID__ = -1851047506;
     public override int GetTypeId() => __ID__;
@@ -95,6 +100,7 @@ public sealed partial class Recipe : Luban.BeanBase
         + "basePrice:" + BasePrice + ","
         + "needTag:" + NeedTag + ","
         + "unlockDay:" + UnlockDay + ","
+        + "icon:" + Icon + ","
         + "}";
     }
 }

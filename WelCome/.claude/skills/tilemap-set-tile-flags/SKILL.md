@@ -31,9 +31,9 @@ unity-mcp-cli run-tool tilemap-set-tile-flags --input '{
   "y": 0,
   "z": 0,
   "color": "string_value",
-  "flipX": "string_value",
-  "flipY": "string_value",
-  "rotationZ": "string_value",
+  "flipX": false,
+  "flipY": false,
+  "rotationZ": 0,
   "scale": "string_value"
 }'
 ```
@@ -60,15 +60,15 @@ Read the /unity-initial-setup skill for detailed installation instructions.
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `gameObjectRef` | `any` | Yes | Reference to the GameObject containing the Tilemap component. |
+| `gameObjectRef` | `string` | Yes | Reference to the GameObject containing the Tilemap component. RQL: GameObjectRef |
 | `x` | `integer` | Yes | Cell X coordinate. |
 | `y` | `integer` | Yes | Cell Y coordinate. |
 | `z` | `integer` | No | Cell Z coordinate (default 0). |
-| `color` | `any` | No | Optional per-cell tint color. |
-| `flipX` | `any` | No | Optional: mirror the tile horizontally. |
-| `flipY` | `any` | No | Optional: mirror the tile vertically. |
-| `rotationZ` | `any` | No | Optional: Z rotation in degrees. |
-| `scale` | `any` | No | Optional per-axis scale (default (1,1,1)). |
+| `color` | `string` | No | Optional per-cell tint color. RQL: Color |
+| `flipX` | `boolean` | No | Optional: mirror the tile horizontally. |
+| `flipY` | `boolean` | No | Optional: mirror the tile vertically. |
+| `rotationZ` | `number` | No | Optional: Z rotation in degrees. |
+| `scale` | `string` | No | Optional per-axis scale (default (1,1,1)). RQL: Vector3 |
 
 ### Input JSON Schema
 
@@ -77,7 +77,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
   "type": "object",
   "properties": {
     "gameObjectRef": {
-      "$ref": "#/$defs/AIGD.GameObjectRef"
+      "type": "string"
     },
     "x": {
       "type": "integer"
@@ -89,115 +89,19 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       "type": "integer"
     },
     "color": {
-      "$ref": "#/$defs/UnityEngine.Color"
-    },
-    "flipX": {
-      "$ref": "#/$defs/System.Boolean"
-    },
-    "flipY": {
-      "$ref": "#/$defs/System.Boolean"
-    },
-    "rotationZ": {
-      "$ref": "#/$defs/System.Single"
-    },
-    "scale": {
-      "$ref": "#/$defs/UnityEngine.Vector3"
-    }
-  },
-  "$defs": {
-    "System.Type": {
       "type": "string"
     },
-    "AIGD.GameObjectRef": {
-      "type": "object",
-      "properties": {
-        "instanceID": {
-          "type": "integer",
-          "description": "instanceID of the UnityEngine.Object. If it is '0' and 'path', 'name', 'assetPath' and 'assetGuid' is not provided, empty or null, then it will be used as 'null'. Priority: 1 (Recommended)"
-        },
-        "path": {
-          "type": "string",
-          "description": "Path of a GameObject in the hierarchy Sample 'character/hand/finger/particle'. Priority: 2."
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of a GameObject in hierarchy. Priority: 3."
-        },
-        "assetType": {
-          "$ref": "#/$defs/System.Type",
-          "description": "Type of the asset."
-        },
-        "assetPath": {
-          "type": "string",
-          "description": "Path to the asset within the project. Starts with 'Assets/'"
-        },
-        "assetGuid": {
-          "type": "string",
-          "description": "Unique identifier for the asset."
-        }
-      },
-      "required": [
-        "instanceID"
-      ],
-      "description": "Find GameObject in opened Prefab or in the active Scene."
-    },
-    "UnityEngine.Color": {
-      "type": "object",
-      "properties": {
-        "r": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "g": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "b": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "a": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        }
-      },
-      "required": [
-        "r",
-        "g",
-        "b",
-        "a"
-      ],
-      "additionalProperties": false
-    },
-    "System.Boolean": {
+    "flipX": {
       "type": "boolean"
     },
-    "System.Single": {
+    "flipY": {
+      "type": "boolean"
+    },
+    "rotationZ": {
       "type": "number"
     },
-    "UnityEngine.Vector3": {
-      "type": "object",
-      "properties": {
-        "x": {
-          "type": "number"
-        },
-        "y": {
-          "type": "number"
-        },
-        "z": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "x",
-        "y",
-        "z"
-      ],
-      "additionalProperties": false
+    "scale": {
+      "type": "string"
     }
   },
   "required": [
@@ -210,124 +114,5 @@ Read the /unity-initial-setup skill for detailed installation instructions.
 
 ## Output
 
-### Output JSON Schema
-
-```json
-{
-  "type": "object",
-  "properties": {
-    "result": {
-      "$ref": "#/$defs/com.IvanMurzak.Unity.MCP.Editor.API.Tool_Tilemap-SetTileFlagsResponse"
-    }
-  },
-  "$defs": {
-    "AIGD.GameObjectRef": {
-      "type": "object",
-      "properties": {
-        "instanceID": {
-          "type": "integer",
-          "description": "instanceID of the UnityEngine.Object. If it is '0' and 'path', 'name', 'assetPath' and 'assetGuid' is not provided, empty or null, then it will be used as 'null'. Priority: 1 (Recommended)"
-        },
-        "path": {
-          "type": "string",
-          "description": "Path of a GameObject in the hierarchy Sample 'character/hand/finger/particle'. Priority: 2."
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of a GameObject in hierarchy. Priority: 3."
-        },
-        "assetType": {
-          "$ref": "#/$defs/System.Type",
-          "description": "Type of the asset."
-        },
-        "assetPath": {
-          "type": "string",
-          "description": "Path to the asset within the project. Starts with 'Assets/'"
-        },
-        "assetGuid": {
-          "type": "string",
-          "description": "Unique identifier for the asset."
-        }
-      },
-      "required": [
-        "instanceID"
-      ],
-      "description": "Find GameObject in opened Prefab or in the active Scene."
-    },
-    "System.Type": {
-      "type": "string"
-    },
-    "AIGD.ComponentRef": {
-      "type": "object",
-      "properties": {
-        "index": {
-          "type": "integer",
-          "description": "Component 'index' attached to a gameObject. The first index is '0' and that is usually Transform or RectTransform. Priority: 2. Default value is -1."
-        },
-        "typeName": {
-          "type": "string",
-          "description": "Component type full name. Sample 'UnityEngine.Transform'. If the gameObject has two components of the same type, the output component is unpredictable. Priority: 3. Default value is null."
-        },
-        "instanceID": {
-          "type": "integer",
-          "description": "instanceID of the UnityEngine.Object. If this is '0', then it will be used as 'null'."
-        }
-      },
-      "required": [
-        "index",
-        "instanceID"
-      ],
-      "description": "Component reference. Used to find a Component at GameObject."
-    },
-    "com.IvanMurzak.Unity.MCP.Editor.API.Tool_Tilemap-SetTileFlagsResponse": {
-      "type": "object",
-      "properties": {
-        "gameObjectRef": {
-          "$ref": "#/$defs/AIGD.GameObjectRef",
-          "description": "Reference to the Tilemap GameObject."
-        },
-        "tilemapRef": {
-          "$ref": "#/$defs/AIGD.ComponentRef",
-          "description": "Reference to the Tilemap component."
-        },
-        "cellX": {
-          "type": "integer",
-          "description": "Cell X coordinate."
-        },
-        "cellY": {
-          "type": "integer",
-          "description": "Cell Y coordinate."
-        },
-        "cellZ": {
-          "type": "integer",
-          "description": "Cell Z coordinate."
-        },
-        "colorApplied": {
-          "type": "boolean",
-          "description": "True when a color override was applied."
-        },
-        "transformApplied": {
-          "type": "boolean",
-          "description": "True when a transform override was applied."
-        },
-        "success": {
-          "type": "boolean",
-          "description": "Whether the operation succeeded."
-        }
-      },
-      "required": [
-        "cellX",
-        "cellY",
-        "cellZ",
-        "colorApplied",
-        "transformApplied",
-        "success"
-      ]
-    }
-  },
-  "required": [
-    "result"
-  ]
-}
-```
+This tool does not return structured output.
 

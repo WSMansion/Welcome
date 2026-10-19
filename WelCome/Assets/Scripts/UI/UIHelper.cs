@@ -27,7 +27,13 @@ namespace WelCome.UI
             get
             {
                 if (_cachedFont == null)
-                    _cachedFont = Font.CreateDynamicFontFromOSFont("Microsoft YaHei", 16);
+                {
+#if UNITY_EDITOR
+                    _cachedFont = UnityEditor.AssetDatabase.LoadAssetAtPath<Font>("Assets/Fonts/UiChinese.ttf");
+#endif
+                    if (_cachedFont == null)
+                        _cachedFont = Font.CreateDynamicFontFromOSFont("Microsoft YaHei", 16);
+                }
                 return _cachedFont;
             }
         }

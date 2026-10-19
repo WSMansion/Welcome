@@ -11,7 +11,13 @@ namespace WelCome.Models
         public int NeedTag;
         public int DaysOld;
 
-        public int SellingPrice
+        public int ListedPrice;
+
+        public int CostPrice => Mathf.Max(0, BasePrice);
+
+        public int SellingPrice => ListedPrice > 0 ? ListedPrice : CalculatedPrice;
+
+        public int CalculatedPrice
         {
             get
             {

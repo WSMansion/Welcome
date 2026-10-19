@@ -27,8 +27,8 @@ Unity 工程位于仓库的 WelCome/ 目录。
 
 ### UI 与生命周期
 
-- BuildUI() 只在首次 Show 时构建一次 UI 骨架；每次显示时由 OnShow() 刷新数据。
-- 动态列表在 OnShow() 中清空后重建；需要彻底重建时调用 InvalidateUI()。
+- 所有界面都必须是预制体，放在 Assets/Prefabs/UI/。禁止用代码临时搭建界面层级。
+- 运行时只实例化预制体并绑定引用；每次显示时由 OnShow() 刷新数据。重复列表项也使用预制体模板，代码只填数据。
 - EventSystem 应放在场景 Hierarchy 中，不要在运行时创建。
 - 背景 Image、文字等非交互元素设置 raycastTarget = false。
 - UI 颜色直接使用 UIHelper.AccentGold 等公共字段；RectTransform 使用 rect.Set(xMin, yMin, xMax, yMax) 扩展方法。
@@ -54,6 +54,7 @@ Unity 工程位于仓库的 WelCome/ 目录。
 - 同类资源变体采用业务名加两位编号，例如 Customer_00、Customer_01，从 00 开始。
 - Prefab 文件名与根 GameObject 名保持一致，方便在 Project 窗口和 Hierarchy 中定位。
 - 同一业务域的可搜索资源使用统一前缀；顾客相关资源统一使用 `Customer` 前缀，例如 `Customer_00`、`CustomerSpeechBubble`、`CustomerTextThought`。
+- 正式图片只放在 Assets/Art 对应业务目录。商品图标放在 Assets/Art/OpenShop/Products，文件名与配方表 icon 字段一致，由图标库引用原图，不要再复制进 Resources。
 
 ### 自检
 

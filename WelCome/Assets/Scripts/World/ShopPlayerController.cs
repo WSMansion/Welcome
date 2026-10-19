@@ -32,8 +32,6 @@ namespace WelCome.World
         [SerializeField, InspectorName("交互提示预制体")]
         private WorldInteractionPrompt interactionPromptPrefab;
 
-        private const string InteractionPromptResourcePath = "OpenShop/InteractionPrompt";
-
         private Rigidbody2D body;
         private Vector2 moveInput;
         private Vector2 facing = Vector2.down;
@@ -52,13 +50,6 @@ namespace WelCome.World
             interactionPrompt = GetComponentInChildren<WorldInteractionPrompt>(true);
             if (interactionPrompt == null)
             {
-                if (interactionPromptPrefab == null)
-                {
-                    GameObject promptPrefabObject = Resources.Load<GameObject>(InteractionPromptResourcePath);
-                    if (promptPrefabObject != null)
-                        interactionPromptPrefab = promptPrefabObject.GetComponent<WorldInteractionPrompt>();
-                }
-
                 if (interactionPromptPrefab != null)
                 {
                     interactionPrompt = Instantiate(interactionPromptPrefab, transform, false);
@@ -67,7 +58,7 @@ namespace WelCome.World
                 else
                 {
                     Debug.LogError(
-                        $"[ShopPlayerController] 找不到交互提示预制体：Resources/{InteractionPromptResourcePath}.prefab",
+                        "[ShopPlayerController] 主控角色未指定交互提示预制体：Assets/Prefabs/OpenShop/InteractionPrompt.prefab",
                         this);
                 }
             }

@@ -1,5 +1,7 @@
 using UnityEngine;
 using WelCome.Core;
+using WelCome.Data;
+using WelCome.Models;
 using WelCome.Systems;
 
 namespace WelCome.World
@@ -157,9 +159,17 @@ namespace WelCome.World
                 if (productRenderer == null)
                     continue;
 
-                bool hasProduct = unlocked && i < configuredSlotCount
-                    && displayCaseSystem.GetDisplayedProduct(configId, i) != null;
+                ProductInstance displayed = unlocked && displayCaseSystem != null && i < configuredSlotCount
+                    ? displayCaseSystem.GetDisplayedProduct(configId, i)
+                    : null;
+                bool hasProduct = displayed != null;
                 productRenderer.enabled = hasProduct;
+                if (hasProduct)
+                {
+                    Sprite icon = ProductIcons.Load(displayed.RecipeId);
+                    if (icon != null)
+                        productRenderer.sprite = icon;
+                }
             }
         }
 

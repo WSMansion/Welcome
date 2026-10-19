@@ -103,7 +103,7 @@ namespace WelCome.World
             if (axis.sqrMagnitude <= 0.0001f)
                 axis = Vector2.right;
             Vector2 midpoint = (firstPosition + secondPosition) * 0.5f;
-            float halfSeparation = Mathf.Min(0.35f, Mathf.Max(0.2f, settings.GreetingRadius * 0.35f));
+            float halfSeparation = Mathf.Max(0.85f, settings.GreetingRadius * 0.75f);
             firstTarget = midpoint - axis * halfSeparation;
             secondTarget = midpoint + axis * halfSeparation;
 

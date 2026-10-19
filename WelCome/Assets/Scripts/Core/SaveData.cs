@@ -43,6 +43,7 @@ namespace WelCome.Core
         public int quality;
         public int needTag;
         public int daysOld;
+        public int listedPrice;
     }
 
     [Serializable]

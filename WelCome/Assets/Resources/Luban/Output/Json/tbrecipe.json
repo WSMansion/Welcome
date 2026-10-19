@@ -9,7 +9,8 @@
     "magic_cost_base": 1,
     "base_price": 15,
     "need_tag": 1,
-    "unlock_day": 1
+    "unlock_day": 1,
+    "icon": "product_crystal"
   },
   {
     "id": 3002,
@@ -21,7 +22,8 @@
     "magic_cost_base": 1,
     "base_price": 18,
     "need_tag": 2,
-    "unlock_day": 1
+    "unlock_day": 1,
+    "icon": "product_potion"
   },
   {
     "id": 3003,
@@ -33,7 +35,8 @@
     "magic_cost_base": 1,
     "base_price": 22,
     "need_tag": 3,
-    "unlock_day": 3
+    "unlock_day": 3,
+    "icon": "product_potion"
   },
   {
     "id": 3004,
@@ -45,7 +48,8 @@
     "magic_cost_base": 2,
     "base_price": 35,
     "need_tag": 4,
-    "unlock_day": 5
+    "unlock_day": 5,
+    "icon": "product_crystal"
   },
   {
     "id": 3005,
@@ -57,7 +61,8 @@
     "magic_cost_base": 2,
     "base_price": 30,
     "need_tag": 4,
-    "unlock_day": 8
+    "unlock_day": 8,
+    "icon": "product_crystal"
   },
   {
     "id": 3006,
@@ -69,7 +74,8 @@
     "magic_cost_base": 1,
     "base_price": 12,
     "need_tag": 6,
-    "unlock_day": 10
+    "unlock_day": 10,
+    "icon": "product_potion"
   },
   {
     "id": 3007,
@@ -81,7 +87,8 @@
     "magic_cost_base": 1,
     "base_price": 20,
     "need_tag": 1,
-    "unlock_day": 2
+    "unlock_day": 2,
+    "icon": "product_potion"
   },
   {
     "id": 3008,
@@ -93,6 +100,7 @@
     "magic_cost_base": 1,
     "base_price": 12,
     "need_tag": 2,
-    "unlock_day": 2
+    "unlock_day": 2,
+    "icon": "product_crystal"
   }
 ]

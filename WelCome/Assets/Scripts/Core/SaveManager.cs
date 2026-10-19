@@ -179,7 +179,8 @@ namespace WelCome.Core
                     basePrice = p.BasePrice,
                     quality = (int)p.Quality,
                     needTag = p.NeedTag,
-                    daysOld = p.DaysOld
+                    daysOld = p.DaysOld,
+                    listedPrice = p.ListedPrice
                 });
             }
 

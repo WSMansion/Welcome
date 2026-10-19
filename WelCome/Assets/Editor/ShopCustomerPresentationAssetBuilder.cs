@@ -18,8 +18,8 @@ namespace WelCome.EditorTools
         private const string SadSpritePath = "Assets/Art/OpenShop/customer_mood_sad.png";
         private const string WaveSpritePath = "Assets/Art/OpenShop/customer_mood_wave.png";
         private const string BrowseTogetherSpritePath = "Assets/Art/OpenShop/customer_mood_browse.png";
-        private const string CustomerBubblePrefabPath = "Assets/Resources/OpenShop/CustomerSpeechBubble.prefab";
-        private const string InteractionPromptPrefabPath = "Assets/Resources/OpenShop/InteractionPrompt.prefab";
+        private const string CustomerBubblePrefabPath = "Assets/Prefabs/OpenShop/CustomerSpeechBubble.prefab";
+        private const string InteractionPromptPrefabPath = "Assets/Prefabs/OpenShop/InteractionPrompt.prefab";
 
         [MenuItem("代号开店/更新顾客表情资源")]
         private static void UpdateCustomerMoodAssetsFromMenu()
