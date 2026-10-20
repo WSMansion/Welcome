@@ -13,6 +13,7 @@ namespace WelCome.World
     public sealed class ShopDisplayCaseView : MonoBehaviour
     {
         private SpriteRenderer[] productRenderers;
+        private ShopDisplayPriceBubble priceBubble;
 
         [Header("配置")]
         [Min(1), InspectorName("陈列柜配置 ID")] public int configId = 8101;
@@ -23,6 +24,7 @@ namespace WelCome.World
         [InspectorName("锁定标记")] public SpriteRenderer lockedIndicatorRenderer;
         [InspectorName("顾客浏览位置")] public Transform browsingPoint;
         [InspectorName("商品槽位")] public Transform[] productSlots;
+        [InspectorName("标价气泡预制体")] public ShopDisplayPriceBubble priceBubblePrefab;
 
         [Header("外观")]
         [InspectorName("锁定柜体颜色")] public Color lockedTint = new Color(0.45f, 0.43f, 0.48f, 1f);
@@ -108,6 +110,7 @@ namespace WelCome.World
                 blockingCollider.enabled = true;
 
             RefreshProductVisuals(displayCaseSystem, unlocked);
+            RefreshPriceBubble(displayCaseSystem, unlocked);
         }
 
         public void SyncPlacementToSave()
@@ -173,6 +176,39 @@ namespace WelCome.World
             }
         }
 
+        private void RefreshPriceBubble(DisplayCaseSystem displayCaseSystem, bool unlocked)
+        {
+            ProductInstance displayed = unlocked && displayCaseSystem != null
+                ? displayCaseSystem.GetDisplayedProduct(configId, 0)
+                : null;
+            if (displayed == null)
+            {
+                if (priceBubble != null)
+                    priceBubble.HidePrice();
+                return;
+            }
+            if (priceBubble == null)
+            {
+                if (priceBubblePrefab == null)
+                    return;
+                priceBubble = Instantiate(priceBubblePrefab, transform);
+                priceBubble.name = "标价气泡";
+                priceBubble.transform.localPosition = PriceBubbleLocalPosition();
+            }
+            priceBubble.ShowPrice(displayed.SellingPrice);
+            int order = spriteRenderer != null ? spriteRenderer.sortingOrder + 3 : 304;
+            priceBubble.SetSorting(SortingLayer.NameToID("HUD"), order);
+        }
+
+
+        private Vector3 PriceBubbleLocalPosition()
+        {
+            if (spriteRenderer == null || spriteRenderer.sprite == null)
+                return new Vector3(0f, 1.76f, -0.02f);
+            Bounds bounds = spriteRenderer.sprite.bounds;
+            float top = bounds.center.y + bounds.extents.y;
+            return new Vector3(0f, top - bounds.size.y * 0.12f, -0.02f);
+        }
         private void CacheProductRenderers()
         {
             if (productSlots == null)

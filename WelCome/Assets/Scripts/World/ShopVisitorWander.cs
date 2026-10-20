@@ -107,7 +107,7 @@ namespace WelCome.World
             UpdateSortingOrder();
         }
 
-        public void SetExternalMotion(Vector2 direction, bool moving, float deltaTime)
+        public void SetExternalMotion(Vector2 direction, bool moving, float deltaTime, float animationScale = 1f)
         {
             if (!externallyDriven)
                 externallyDriven = true;
@@ -119,7 +119,7 @@ namespace WelCome.World
                     : new Vector2(0f, Mathf.Sign(direction.y));
             }
 
-            AdvanceAnimation(moving, deltaTime);
+            AdvanceAnimation(moving, deltaTime * Mathf.Max(0.25f, animationScale));
             UpdateSortingOrder();
         }
 

@@ -676,6 +676,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8104
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.5
@@ -1067,6 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayCaseStockPanelPrefab: {fileID: 3772004771498107490, guid: b4fec311a87544b4dbbb37d15ed6efc4, type: 3}
   productIconLibrary: {fileID: 11400000, guid: 905e77270ecd7dd478425af4887e9129, type: 2}
+  goldBarPrefab: {fileID: 9201000000000000005, guid: 3f8a1c6e9d2b4a7f8e5c0d14b6a39750, type: 3}
 --- !u!4 &327202539
 Transform:
   m_ObjectHideFlags: 0
@@ -1312,6 +1317,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8112
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.5
@@ -12908,6 +12917,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8105
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.5
@@ -13106,6 +13119,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8111
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 27.5
@@ -13352,6 +13369,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8115
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 27.5
@@ -13468,6 +13489,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8114
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.5
@@ -21199,6 +21224,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8102
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.5
@@ -21395,6 +21424,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8106
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.5
@@ -21494,6 +21527,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8116
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.5
@@ -21650,6 +21687,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8103
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.5
@@ -22225,6 +22266,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u5C55\u793A\u67B6 01"
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.5
@@ -22653,6 +22698,10 @@ PrefabInstance:
       propertyPath: configId
       value: 8113
       objectReference: {fileID: 0}
+    - target: {fileID: 3267393026760245566, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
+      propertyPath: priceBubblePrefab
+      value: 
+      objectReference: {fileID: 5244026948731755381, guid: 6da8def6200c2934a87eb388204a0150, type: 3}
     - target: {fileID: 3984242255517002776, guid: bcaf9972e751d894db7e619e525d2ec9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 27.5

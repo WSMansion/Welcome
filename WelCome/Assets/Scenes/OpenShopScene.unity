@@ -7720,6 +7720,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayCaseStockPanelPrefab: {fileID: 3772004771498107490, guid: b4fec311a87544b4dbbb37d15ed6efc4, type: 3}
   productIconLibrary: {fileID: 11400000, guid: 905e77270ecd7dd478425af4887e9129, type: 2}
+  goldBarPrefab: {fileID: 9201000000000000005, guid: 3f8a1c6e9d2b4a7f8e5c0d14b6a39750, type: 3}
 --- !u!4 &775413243
 Transform:
   m_ObjectHideFlags: 0

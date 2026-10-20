@@ -121,6 +121,18 @@ namespace WelCome.UI
         /// Shows a modal popup. If onCancel is null, only an OK button is shown.
         /// If onCancel is provided, both Confirm and Cancel buttons appear.
         /// </summary>
+        public void MountShopGoldBar(ShopGoldBar prefab)
+        {
+            if (prefab == null || _canvas == null)
+                return;
+            if (_canvas.GetComponentInChildren<ShopGoldBar>(true) != null)
+                return;
+
+            ShopGoldBar bar = Instantiate(prefab, _canvas.transform, false);
+            bar.name = "金币栏";
+            bar.transform.SetAsLastSibling();
+        }
+
         public void ShowSaveSlots(SaveSlotMode mode, Action onDone = null)
         {
             var panel = GetPanel<SaveSlotPanel>();

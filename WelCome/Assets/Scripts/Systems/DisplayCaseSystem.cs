@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using WelCome.Core;
 using WelCome.Models;
@@ -254,6 +254,59 @@ namespace WelCome.Systems
             EventBus.Publish(new DisplayCasesChangedEvent { DayNumber = GameManager.Instance.CurrentDay });
             return true;
         }
+
+        public bool TrySellDisplayedProduct(int caseId, int slotIndex, out int price)
+        {
+            price = 0;
+            DisplayCaseStockEntry entry = FindStockEntry(caseId, slotIndex);
+            if (entry == null)
+                return false;
+
+            ProductInstance sold = ToProduct(entry.product);
+            price = Mathf.Max(0, sold.SellingPrice);
+            displayedProducts.Remove(entry);
+
+            if (WorkshopSystem.Instance != null)
+            {
+                ProductInstance replacement = null;
+                foreach (ProductInstance item in WorkshopSystem.Instance.Inventory)
+                {
+                    if (item != null && item.RecipeId == sold.RecipeId && item.Quality == sold.Quality)
+                    {
+                        replacement = item;
+                        break;
+                    }
+                }
+
+                if (replacement != null && WorkshopSystem.Instance.RemoveFromInventory(replacement))
+                {
+                    displayedProducts.Add(new DisplayCaseStockEntry
+                    {
+                        caseId = caseId,
+                        slotIndex = slotIndex,
+                        product = ToSaveEntry(replacement)
+                    });
+                }
+
+                WorkshopSystem.Instance.RecordSale(price);
+            }
+
+            if (ResourceSystem.Instance != null)
+                ResourceSystem.Instance.AddGold(price);
+
+            EventBus.Publish(new ProductSoldEvent
+            {
+                ProductId = sold.RecipeId,
+                Price = price,
+                CustomerId = 0
+            });
+            EventBus.Publish(new DisplayCasesChangedEvent
+            {
+                DayNumber = GameManager.Instance != null ? GameManager.Instance.CurrentDay : 0
+            });
+            return true;
+        }
+
 
         private void OnDayStarted(DayStartedEvent evt)
         {

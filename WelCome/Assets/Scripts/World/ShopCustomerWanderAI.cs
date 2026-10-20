@@ -64,6 +64,9 @@ namespace WelCome.World
         [SerializeField, InspectorName("状态气泡")]
         private ShopCustomerSpeechBubble interactionBubble;
         private float indicatorTimer;
+        private PurchasePhase purchasePhase;
+        private bool leaveAfterRejection;
+        private float offerDuration;
         private Vector2 streetPassThroughDestination;
         private bool hasStreetPassThroughDestination;
         private bool streetCustomerInsideShop;
@@ -81,7 +84,7 @@ namespace WelCome.World
             && navigation != null && navigation.IsOutside(transform.position);
         public int StreetLaneIndex => streetLaneIndex;
         public int StreetDirection => streetDirection;
-        public bool IsPausedAtDestination => pauseTimer > 0f && !awaitingNoticeDecision && !socializing;
+        public bool IsPausedAtDestination => pauseTimer > 0f && !awaitingNoticeDecision && !socializing && purchasePhase == PurchasePhase.None;
         public bool HasInspectedEmptyDisplay(ShopDisplayCaseView displayCase) =>
             displayCase != null && inspectedEmptyDisplayIds.Contains(displayCase.GetInstanceID());
         private bool ShouldContinueStreetRoute => hasStreetPassThroughDestination
@@ -192,6 +195,8 @@ namespace WelCome.World
             if (pauseTimer > 0f)
             {
                 pauseTimer -= Time.deltaTime;
+                if (purchasePhase == PurchasePhase.Offering)
+                    UpdatePaymentCountdown();
                 animationBinding.SetExternalMotion(lastDirection, false, Time.deltaTime);
                 if (pauseTimer <= 0f)
                     CompletePause();
@@ -218,10 +223,21 @@ namespace WelCome.World
                 return;
             }
 
-            Vector2 next = Vector2.MoveTowards(current, target, Mathf.Max(0.1f, profile.MoveSpeed) * Time.deltaTime);
+            float hurry = IsHeadingToStockedShelf ? 1.5f : 1f;
+            Vector2 next = Vector2.MoveTowards(current, target, Mathf.Max(0.1f, profile.MoveSpeed) * hurry * Time.deltaTime);
             transform.position = new Vector3(next.x, next.y, transform.position.z);
             lastDirection = next - current;
-            animationBinding.SetExternalMotion(lastDirection, true, Time.deltaTime);
+            animationBinding.SetExternalMotion(lastDirection, true, Time.deltaTime, IsHeadingToStockedShelf ? 1.5f : 1f);
+        }
+
+        private bool IsHeadingToStockedShelf
+        {
+            get
+            {
+                if (reservedCase == null || DisplayCaseSystem.Instance == null)
+                    return false;
+                return DisplayCaseSystem.Instance.GetDisplayedProduct(reservedCase.ConfigId, 0) != null;
+            }
         }
 
         private void HandlePathDestinationReached()
@@ -310,19 +326,10 @@ namespace WelCome.World
                 return;
             }
 
-            if (TryHandleEmptyDisplayBrowse())
-                return;
-
-            if (browseThoughtBubbleShown)
+            if (purchasePhase != PurchasePhase.None)
             {
-                browseThoughtBubbleShown = false;
-                if (ShouldShowUnhappyBrowseOutcome())
-                {
-                    showingUnhappyBrowseOutcome = true;
-                    pauseTimer = Mathf.Max(0.2f, behaviorSettings.UnhappyBubbleSeconds);
-                    ShowUnhappyInteractionIndicator(pauseTimer);
+                if (ContinuePurchase())
                     return;
-                }
             }
 
             ClearInteractionIndicator();
@@ -400,6 +407,18 @@ namespace WelCome.World
             if (profile.BrowseWeight > 0 && navigation.TryGetBrowseTarget(this, out browseTarget))
             {
                 reservedCase = browseTarget;
+                bool stockedShelf = DisplayCaseSystem.Instance != null
+                    && DisplayCaseSystem.Instance.GetDisplayedProduct(browseTarget.ConfigId, 0) != null;
+                if (stockedShelf)
+                {
+                    if (!TrySetDestination(browseTarget.BrowsingPosition))
+                    {
+                        ReleaseBrowseReservation();
+                        BeginPause(0.4f, 0.9f);
+                    }
+                    return;
+                }
+
                 candidates.Add(new DestinationCandidate(DestinationKind.Browse, profile.BrowseWeight,
                     browseTarget.BrowsingPosition));
             }
@@ -621,14 +640,7 @@ namespace WelCome.World
             pauseTimer = Random.Range(low, high);
             browseThoughtBubbleShown = false;
             if (reservedCase != null)
-            {
-                ClearInteractionIndicator();
-                if (RollChance(behaviorSettings.BrowseThoughtBubbleChance))
-                {
-                    browseThoughtBubbleShown = true;
-                    ShowThoughtIndicator(pauseTimer);
-                }
-            }
+                BeginBrowseLook();
             if (animationBinding != null)
                 animationBinding.SetExternalMotion(lastDirection, false, Time.deltaTime);
         }
@@ -972,7 +984,7 @@ namespace WelCome.World
                             Mathf.Max(0.1f, profile.MoveSpeed) * socialApproachSpeedMultiplier * Time.deltaTime);
                         transform.position = new Vector3(next.x, next.y, transform.position.z);
                         lastDirection = next - current;
-                        animationBinding.SetExternalMotion(lastDirection, true, Time.deltaTime);
+                        animationBinding.SetExternalMotion(lastDirection, true, Time.deltaTime, IsHeadingToStockedShelf ? 1.5f : 1f);
                         return;
                     }
                 }
@@ -1288,12 +1300,234 @@ namespace WelCome.World
                 socialPartner.CancelSocialInteractionFromPartner(this);
             socialPartner = null;
             socializing = false;
+            purchasePhase = PurchasePhase.None;
             browseThoughtBubbleShown = false;
             showingUnhappyBrowseOutcome = false;
             inspectedEmptyDisplayIds.Clear();
             consecutiveEmptyDisplayCount = 0;
             ClearInteractionIndicator();
         }
+
+        public bool CanCollectPayment => purchasePhase == PurchasePhase.Offering && pauseTimer > 0f;
+        public Vector3 PaymentAnchor => speechBubbleAnchor != null ? speechBubbleAnchor.position : transform.position + Vector3.up * 1.1f;
+
+        public bool TryCollectPayment()
+        {
+            if (!CanCollectPayment || reservedCase == null || DisplayCaseSystem.Instance == null)
+                return false;
+            if (!DisplayCaseSystem.Instance.TrySellDisplayedProduct(reservedCase.ConfigId, 0, out int price))
+                return false;
+            purchasePhase = PurchasePhase.Paid;
+            pauseTimer = 1.1f;
+            ClearInteractionIndicator();
+            ShopCustomerCoinBurst burst = GetComponent<ShopCustomerCoinBurst>();
+            if (burst == null)
+                burst = gameObject.AddComponent<ShopCustomerCoinBurst>();
+            burst.Play();
+            return price >= 0;
+        }
+
+        private void BeginBrowseLook()
+        {
+            FaceReservedCase();
+            ClearInteractionIndicator();
+            if (ReservedShelfIsEmpty())
+            {
+                RejectShelf("没货开什么店");
+                return;
+            }
+
+            purchasePhase = PurchasePhase.Looking;
+            pauseTimer = ShopPurchaseTuning.LookDuration();
+            browseThoughtBubbleShown = true;
+            ShowThoughtIndicator(pauseTimer);
+        }
+
+        private bool ReservedShelfIsEmpty()
+        {
+            if (reservedCase == null || DisplayCaseSystem.Instance == null)
+                return false;
+            return DisplayCaseSystem.Instance.GetDisplayedProduct(reservedCase.ConfigId, 0) == null;
+        }
+
+        private bool ContinuePurchase()
+        {
+            if (purchasePhase == PurchasePhase.Looking)
+            {
+                ResolveBrowseLook();
+                return true;
+            }
+
+            bool leave = leaveAfterRejection;
+            if (purchasePhase == PurchasePhase.Offering)
+                leave = RememberUnboughtShelf();
+            if (purchasePhase == PurchasePhase.Paid)
+            {
+                if (reservedCase != null)
+                    inspectedEmptyDisplayIds.Add(reservedCase.GetInstanceID());
+                leave = false;
+            }
+
+            purchasePhase = PurchasePhase.None;
+            leaveAfterRejection = false;
+            ClearInteractionIndicator();
+            ReleaseBrowseReservation();
+            if (leave)
+                StartShopDeparture();
+            else
+                ChooseNextDestination();
+            return true;
+        }
+
+        private void ResolveBrowseLook()
+        {
+            ProductInstance displayed = reservedCase != null && DisplayCaseSystem.Instance != null
+                ? DisplayCaseSystem.Instance.GetDisplayedProduct(reservedCase.ConfigId, 0)
+                : null;
+            if (displayed == null)
+            {
+                RejectShelf("没货开什么店");
+                return;
+            }
+
+            int roll = Random.Range(0, 100);
+            int interest = ShopPurchaseTuning.InterestChance;
+            int expensive = ShopPurchaseTuning.TooExpensiveChance;
+            int again = ShopPurchaseTuning.LookAgainChance;
+            if (displayed.CostPrice > 0 && displayed.SellingPrice > displayed.CostPrice * 2)
+            {
+                interest = Mathf.Max(0, interest - 20);
+                expensive += 20;
+            }
+
+            if (roll < interest)
+            {
+                purchasePhase = PurchasePhase.Offering;
+                offerDuration = Mathf.Max(0.5f, ShopPurchaseTuning.OfferSeconds);
+                pauseTimer = offerDuration;
+                FaceReservedCase();
+                ShowBubbleIcon(ShopCustomerSpeechBubble.IconKind.Pay, offerDuration);
+                if (TryGetInteractionBubble())
+                    interactionBubble.SetCountdown(1f);
+                return;
+            }
+
+            roll -= interest;
+            if (roll < expensive)
+            {
+                RejectShelf("太贵了");
+                return;
+            }
+
+            roll -= expensive;
+            if (roll < again)
+            {
+                RejectShelf("再看看吧");
+                return;
+            }
+
+            RejectShelf(null);
+        }
+
+        private void RejectShelf(string line)
+        {
+            leaveAfterRejection = RememberUnboughtShelf();
+            if (string.IsNullOrEmpty(line))
+            {
+                purchasePhase = PurchasePhase.None;
+                bool leave = leaveAfterRejection;
+                leaveAfterRejection = false;
+                ClearInteractionIndicator();
+                ReleaseBrowseReservation();
+                if (leave)
+                    StartShopDeparture();
+                else
+                    ChooseNextDestination();
+                return;
+            }
+
+            ShowReaction(line);
+        }
+
+        private bool RememberUnboughtShelf()
+        {
+            if (reservedCase == null)
+                return false;
+            inspectedEmptyDisplayIds.Add(reservedCase.GetInstanceID());
+            consecutiveEmptyDisplayCount++;
+            int threshold = behaviorSettings == null ? 3 : Mathf.Max(1, behaviorSettings.EmptyDisplayLeaveThreshold);
+            return consecutiveEmptyDisplayCount >= threshold;
+        }
+
+        private void StartShopDeparture()
+        {
+            if (navigation == null)
+            {
+                ChooseNextDestination();
+                return;
+            }
+
+            if (!hasStreetPassThroughDestination)
+            {
+                float streetY = (navigation.outdoorMin.y + navigation.outdoorMax.y) * 0.5f;
+                ConfigureStreetDeparture(new Vector2(navigation.navigationMax.x + 6f, streetY));
+            }
+
+            ReleaseBrowseReservation();
+            if (TryGetStreetDeparturePoint(out Vector2 outdoorExit)
+                && TrySetDestinationThroughDoorway(outdoorExit))
+            {
+                streetDepartureStarted = true;
+                return;
+            }
+
+            ChooseNextDestination();
+        }
+
+        private void ShowReaction(string line)
+        {
+            purchasePhase = PurchasePhase.Reacting;
+            pauseTimer = Mathf.Max(0.4f, ShopPurchaseTuning.ReactionSeconds);
+            ShowThoughtLine(line, pauseTimer);
+        }
+
+        private void ShowThoughtLine(string line, float duration)
+        {
+            TextMesh text = EnsureThoughtText();
+            if (text == null)
+            {
+                ShowThoughtText(duration);
+                return;
+            }
+            text.text = line;
+            ShowThoughtText(duration);
+        }
+
+        private void FaceReservedCase()
+        {
+            if (reservedCase == null)
+                return;
+            Vector2 direction = (Vector2)reservedCase.transform.position - (Vector2)transform.position;
+            if (direction.sqrMagnitude > 0.0001f)
+                lastDirection = direction;
+        }
+
+        private void UpdatePaymentCountdown()
+        {
+            if (!TryGetInteractionBubble() || offerDuration <= 0f)
+                return;
+            interactionBubble.SetCountdown(Mathf.Clamp01(pauseTimer / offerDuration));
+        }
+
+        private enum PurchasePhase
+        {
+            None,
+            Looking,
+            Reacting,
+            Offering,
+            Paid
+        }
+
 
         private enum DestinationKind
         {

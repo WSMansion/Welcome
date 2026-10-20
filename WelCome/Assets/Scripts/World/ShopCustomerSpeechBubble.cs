@@ -17,7 +17,8 @@ namespace WelCome.World
             Angry,
             Sad,
             Wave,
-            BrowseTogether
+            BrowseTogether,
+            Pay
         }
 
         [SerializeField, InspectorName("气泡底图")]
@@ -25,6 +26,7 @@ namespace WelCome.World
 
         [SerializeField, InspectorName("可替换图标")]
         private SpriteRenderer iconRenderer;
+        private SpriteRenderer countdownMask;
 
         [SerializeField, Min(0f), InspectorName("图标内边距"),
          Tooltip("气泡底图会按图标尺寸加上这里的左右、上下留白自动拉伸。")]
@@ -47,6 +49,8 @@ namespace WelCome.World
         private Sprite waveIcon;
         [SerializeField, InspectorName("一起逛")]
         private Sprite browseTogetherIcon;
+        [SerializeField, InspectorName("等待结账")]
+        private Sprite payIcon;
 
         private Vector3 defaultBubbleScale;
         private Vector2 defaultBackgroundSize;
@@ -103,6 +107,9 @@ namespace WelCome.World
             iconRenderer.sprite = icon;
             iconRenderer.enabled = true;
             backgroundRenderer.enabled = true;
+            EnsureCountdownMask();
+            if (countdownMask != null)
+                countdownMask.enabled = false;
             FitBackgroundToIcon();
             return true;
         }
@@ -114,6 +121,8 @@ namespace WelCome.World
                 backgroundRenderer.enabled = false;
             if (iconRenderer != null)
                 iconRenderer.enabled = false;
+            if (countdownMask != null)
+                countdownMask.enabled = false;
         }
 
         public void SetSorting(int sortingLayerId, int backgroundOrder)
@@ -129,6 +138,52 @@ namespace WelCome.World
                 iconRenderer.sortingLayerID = sortingLayerId;
                 iconRenderer.sortingOrder = backgroundOrder + 1;
             }
+            if (countdownMask != null)
+            {
+                countdownMask.sortingLayerID = sortingLayerId;
+                countdownMask.sortingOrder = backgroundOrder + 2;
+            }
+        }
+
+        public void SetCountdown(float remaining)
+        {
+            EnsureCountdownMask();
+            if (countdownMask == null || countdownMask.sprite == null
+                || iconRenderer == null || iconRenderer.sprite == null)
+                return;
+
+            bool show = backgroundRenderer != null && backgroundRenderer.enabled;
+            float cover = 1f - Mathf.Clamp01(remaining);
+            if (!show || cover <= 0.001f)
+            {
+                countdownMask.enabled = false;
+                return;
+            }
+
+            Transform mask = countdownMask.transform;
+            if (mask.parent != iconRenderer.transform)
+                mask.SetParent(iconRenderer.transform, false);
+
+            Vector2 iconSize = iconRenderer.sprite.bounds.size;
+            Vector2 maskSize = countdownMask.sprite.bounds.size;
+            float width = maskSize.x > 0.0001f ? iconSize.x / maskSize.x : 1f;
+            float height = maskSize.y > 0.0001f ? iconSize.y * cover / maskSize.y : cover;
+            mask.localScale = new Vector3(width, Mathf.Max(0.001f, height), 1f);
+            mask.localPosition = new Vector3(0f, iconSize.y * 0.5f, -0.01f);
+            countdownMask.sortingLayerID = iconRenderer.sortingLayerID;
+            countdownMask.sortingOrder = iconRenderer.sortingOrder + 1;
+            countdownMask.enabled = true;
+        }
+
+        private void EnsureCountdownMask()
+        {
+            if (countdownMask != null)
+                return;
+            Transform existing = transform.Find("倒计时遮罩");
+            if (existing == null && iconRenderer != null)
+                existing = iconRenderer.transform.Find("倒计时遮罩");
+            if (existing != null)
+                countdownMask = existing.GetComponent<SpriteRenderer>();
         }
 
         private Sprite ResolveIcon(IconKind iconKind)
@@ -151,6 +206,8 @@ namespace WelCome.World
                     return waveIcon;
                 case IconKind.BrowseTogether:
                     return browseTogetherIcon;
+                case IconKind.Pay:
+                    return payIcon;
                 default:
                     return null;
             }

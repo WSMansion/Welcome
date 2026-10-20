@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using WelCome.Data;
@@ -31,6 +31,7 @@ namespace WelCome.UI
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button removeButton;
         [SerializeField] private Button detailCloseButton;
+        [SerializeField] private Button unshelfButton;
 
         private readonly List<DisplayCaseInventorySlot> slots = new List<DisplayCaseInventorySlot>();
         private ShopDisplayCaseView displayCase;
@@ -95,6 +96,8 @@ namespace WelCome.UI
             confirmButton.onClick.AddListener(ConfirmAdjust);
             removeButton.onClick.AddListener(ConfirmRemove);
             detailCloseButton.onClick.AddListener(CloseDetail);
+            if (unshelfButton != null)
+                unshelfButton.onClick.AddListener(ConfirmRemove);
             priceInput.onValueChanged.AddListener(delegate { RefreshMargin(); });
             buttonsBound = true;
         }
@@ -118,6 +121,9 @@ namespace WelCome.UI
                 shelfStock.text = hasProduct ? "库存：" + CountOwned(listed, true) : "";
                 SetWithPlate(shelfStock.gameObject, hasProduct);
             }
+
+            if (unshelfButton != null)
+                unshelfButton.gameObject.SetActive(hasProduct);
 
             if (shelfIcon != null)
             {

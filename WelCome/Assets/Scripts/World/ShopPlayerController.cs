@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using WelCome.UI;
+using System.Collections.Generic;
 
 namespace WelCome.World
 {
@@ -79,8 +80,14 @@ namespace WelCome.World
             }
 
             RefreshNearbyDisplayCase();
-            if (nearbyDisplayCase != null && Input.GetKeyDown(KeyCode.E))
-                OpenDisplayCasePanel();
+            ShopCustomerWanderAI payingCustomer = FindPayingCustomer();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (payingCustomer != null && payingCustomer.TryCollectPayment())
+                    return;
+                if (nearbyDisplayCase != null)
+                    OpenDisplayCasePanel();
+            }
 
             runHeld = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             moveInput = Vector2.zero;
@@ -111,9 +118,15 @@ namespace WelCome.World
 
         private void LateUpdate()
         {
-            if (interactionPrompt == null || interactionPanelOpen || nearbyDisplayCase == null)
+            ShopCustomerWanderAI payingCustomer = FindPayingCustomer();
+            if (interactionPrompt == null || interactionPanelOpen || (nearbyDisplayCase == null && payingCustomer == null))
             {
                 interactionPrompt?.Hide();
+                return;
+            }
+            if (payingCustomer != null)
+            {
+                interactionPrompt.ShowAt(payingCustomer.PaymentAnchor, payingCustomer.GetComponentInChildren<SpriteRenderer>());
                 return;
             }
 
@@ -194,6 +207,27 @@ namespace WelCome.World
             }
 
             nearbyDisplayCase = closestCase;
+        }
+
+        private ShopCustomerWanderAI FindPayingCustomer()
+        {
+            Vector2 playerPosition = body != null ? body.position : (Vector2)transform.position;
+            ShopCustomerWanderAI closest = null;
+            float closestDistance = displayCaseInteractRange;
+            ShopCustomerWanderAI[] customers = FindObjectsOfType<ShopCustomerWanderAI>();
+            for (int i = 0; i < customers.Length; i++)
+            {
+                ShopCustomerWanderAI customer = customers[i];
+                if (customer == null || !customer.CanCollectPayment)
+                    continue;
+                float distance = Vector2.Distance(playerPosition, customer.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closest = customer;
+                }
+            }
+            return closest;
         }
 
         private void OpenDisplayCasePanel()

@@ -126,17 +126,31 @@ namespace WelCome.World
             displayCase = null;
             ReleaseBrowseTarget(customer);
 
-            List<ShopDisplayCaseView> candidates = new List<ShopDisplayCaseView>();
+            List<ShopDisplayCaseView> stocked = new List<ShopDisplayCaseView>();
+            List<ShopDisplayCaseView> empty = new List<ShopDisplayCaseView>();
+            DisplayCaseSystem displayCaseSystem = DisplayCaseSystem.Instance;
             foreach (ShopDisplayCaseView candidate in displayCases)
             {
                 if (candidate == null || !candidate.isActiveAndEnabled || !candidate.IsUnlocked
                     || candidate.browsingPoint == null || customer.HasInspectedEmptyDisplay(candidate)
                     || browseReservations.ContainsKey(candidate))
                     continue;
-                candidates.Add(candidate);
+                bool hasProduct = displayCaseSystem != null
+                    && displayCaseSystem.GetDisplayedProduct(candidate.ConfigId, 0) != null;
+                if (hasProduct)
+                    stocked.Add(candidate);
+                else
+                    empty.Add(candidate);
             }
 
-            if (candidates.Count == 0)
+            return TryReserveReachableCase(customer, stocked, out displayCase)
+                || TryReserveReachableCase(customer, empty, out displayCase);
+        }
+
+        private bool TryReserveReachableCase(ShopCustomerWanderAI customer, List<ShopDisplayCaseView> candidates, out ShopDisplayCaseView displayCase)
+        {
+            displayCase = null;
+            if (candidates == null || candidates.Count == 0)
                 return false;
 
             for (int attempt = 0; attempt < candidates.Count; attempt++)
